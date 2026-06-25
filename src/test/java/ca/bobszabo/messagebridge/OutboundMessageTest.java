@@ -19,4 +19,11 @@ class OutboundMessageTest {
         assertEquals(0, original.platformOverrides().size());
         assertEquals("bridge", changed.platformOverrides().get("username"));
     }
+
+    @Test
+    void requiresOverrideName() {
+        OutboundMessage original = OutboundMessage.text("Hello");
+
+        assertThrows(IllegalArgumentException.class, () -> original.withPlatformOverride("", "bridge"));
+    }
 }

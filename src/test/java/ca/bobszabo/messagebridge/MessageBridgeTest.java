@@ -4,10 +4,12 @@ import ca.bobszabo.messagebridge.webhook.ChatPlatform;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MessageBridgeTest {
@@ -62,6 +64,19 @@ class MessageBridgeTest {
     }
 
     @Test
+    void escapesJsonPayloadText() throws Exception {
+        CapturingWebhookClient webhookClient = new CapturingWebhookClient();
+        MessageSender sender = MessageBridge.webhookSender(
+                ChatPlatform.MATTERMOST,
+                URI.create("https://mattermost.test/hooks/example"),
+                webhookClient);
+
+        sender.send(OutboundMessage.text("Line one\n\"quoted\""));
+
+        assertEquals("{\"text\":\"Line one\\n\\\"quoted\\\"\"}", webhookClient.jsonPayload);
+    }
+
+    @Test
     void createsTeamsMessageCardPayload() throws Exception {
         CapturingWebhookClient webhookClient = new CapturingWebhookClient();
         MessageSender sender = MessageBridge.webhookSender(
@@ -75,6 +90,18 @@ class MessageBridgeTest {
                 "{\"@type\":\"MessageCard\",\"@context\":\"https://schema.org/extensions\","
                         + "\"summary\":\"Incident resolved\",\"text\":\"Incident resolved\"}",
                 webhookClient.jsonPayload);
+    }
+
+    @Test
+    void rejectsUnsupportedOverrideValueBeforeTransport() {
+        CapturingWebhookClient webhookClient = new CapturingWebhookClient();
+        MessageSender sender = MessageBridge.webhookSender(
+                ChatPlatform.SLACK,
+                URI.create("https://hooks.slack.test/services/example"),
+                webhookClient);
+
+        assertThrows(IllegalArgumentException.class, () -> sender.send(OutboundMessage.text("Build passed")
+                .withPlatformOverride("created_at", new Date())));
     }
 
     private static final class CapturingWebhookClient implements ca.bobszabo.messagebridge.webhook.WebhookClient {
