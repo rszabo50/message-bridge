@@ -106,3 +106,19 @@ mvn -Pwebhook-integration verify
 ```
 
 Each variable is optional. Tests without a matching environment variable are skipped.
+
+## Local Publishing
+
+Install the snapshot into your local Maven repository:
+
+```shell
+mvn install
+```
+
+Build release-style artifacts with source and Javadoc jars:
+
+```shell
+mvn -Prelease-artifacts verify
+```
+
+Public repository publishing is intentionally not configured yet. Before publishing to a shared repository, define the real project license, project URL, SCM URL, developer metadata, signing requirements, and target repository.
