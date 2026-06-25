@@ -6,6 +6,7 @@ import ca.bobszabo.messagebridge.webhook.WebhookClient;
 import ca.bobszabo.messagebridge.webhook.WebhookMessageSender;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -51,5 +52,15 @@ public final class MessageBridge {
                 Objects.requireNonNull(platform, "platform"),
                 Objects.requireNonNull(webhookUri, "webhookUri"),
                 Objects.requireNonNull(webhookClient, "webhookClient"));
+    }
+
+    /**
+     * Creates a sender that broadcasts each message to multiple destinations.
+     *
+     * @param destinations destinations that should receive each message
+     * @return a broadcast sender
+     */
+    public static BroadcastMessageSender broadcast(List<MessageSender> destinations) {
+        return new BroadcastMessageSender(destinations);
     }
 }
