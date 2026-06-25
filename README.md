@@ -61,6 +61,15 @@ OutboundMessage message = OutboundMessage.text("Review requested")
         .withPlatformOverride("channel", "engineering");
 ```
 
+Multiple overrides:
+
+```java
+OutboundMessage message = OutboundMessage.builder("Release completed")
+        .platformOverride("username", "release-bot")
+        .platformOverride("channel", "engineering")
+        .build();
+```
+
 Teams MessageCard fields:
 
 ```java
