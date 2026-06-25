@@ -1,4 +1,4 @@
-package ca.bobszabo.messagebridge.internal;
+package io.github.rszabo50.messagebridge.internal;
 
 import java.lang.reflect.Array;
 import java.util.Iterator;
@@ -15,25 +15,27 @@ public final class JsonWriter {
     }
 
     private static void appendValue(StringBuilder output, Object value) {
-        switch (value) {
-            case null -> output.append("null");
-            case String string -> appendString(output, string);
-            case Boolean bool -> output.append(bool);
-            case Integer number -> output.append(number);
-            case Long number -> output.append(number);
-            case Short number -> output.append(number);
-            case Byte number -> output.append(number);
-            case Double number -> appendFloatingPoint(output, number);
-            case Float number -> appendFloatingPoint(output, number);
-            case Map<?, ?> map -> appendMap(output, map);
-            case Iterable<?> iterable -> appendIterable(output, iterable.iterator());
-            default -> {
-                if (value.getClass().isArray()) {
-                    appendArray(output, value);
-                } else {
-                    throw new IllegalArgumentException("unsupported JSON value type: " + value.getClass().getName());
-                }
-            }
+        if (value == null) {
+            output.append("null");
+        } else if (value instanceof String) {
+            appendString(output, (String) value);
+        } else if (value instanceof Boolean) {
+            output.append(value);
+        } else if (value instanceof Integer
+                || value instanceof Long
+                || value instanceof Short
+                || value instanceof Byte) {
+            output.append(value);
+        } else if (value instanceof Double || value instanceof Float) {
+            appendFloatingPoint(output, (Number) value);
+        } else if (value instanceof Map<?, ?>) {
+            appendMap(output, (Map<?, ?>) value);
+        } else if (value instanceof Iterable<?>) {
+            appendIterable(output, ((Iterable<?>) value).iterator());
+        } else if (value.getClass().isArray()) {
+            appendArray(output, value);
+        } else {
+            throw new IllegalArgumentException("unsupported JSON value type: " + value.getClass().getName());
         }
     }
 
@@ -41,9 +43,10 @@ public final class JsonWriter {
         output.append('{');
         boolean first = true;
         for (Map.Entry<?, ?> entry : map.entrySet()) {
-            if (!(entry.getKey() instanceof String key)) {
+            if (!(entry.getKey() instanceof String)) {
                 throw new IllegalArgumentException("JSON object keys must be strings");
             }
+            String key = (String) entry.getKey();
             if (!first) {
                 output.append(',');
             }
@@ -82,7 +85,7 @@ public final class JsonWriter {
 
     private static void appendFloatingPoint(StringBuilder output, Number number) {
         double value = number.doubleValue();
-        if (!Double.isFinite(value)) {
+        if (Double.isNaN(value) || Double.isInfinite(value)) {
             throw new IllegalArgumentException("JSON number must be finite");
         }
         output.append(number);
@@ -93,20 +96,33 @@ public final class JsonWriter {
         for (int index = 0; index < value.length(); index++) {
             char character = value.charAt(index);
             switch (character) {
-                case '"' -> output.append("\\\"");
-                case '\\' -> output.append("\\\\");
-                case '\b' -> output.append("\\b");
-                case '\f' -> output.append("\\f");
-                case '\n' -> output.append("\\n");
-                case '\r' -> output.append("\\r");
-                case '\t' -> output.append("\\t");
-                default -> {
+                case '"':
+                    output.append("\\\"");
+                    break;
+                case '\\':
+                    output.append("\\\\");
+                    break;
+                case '\b':
+                    output.append("\\b");
+                    break;
+                case '\f':
+                    output.append("\\f");
+                    break;
+                case '\n':
+                    output.append("\\n");
+                    break;
+                case '\r':
+                    output.append("\\r");
+                    break;
+                case '\t':
+                    output.append("\\t");
+                    break;
+                default:
                     if (character < 0x20) {
                         output.append(String.format("\\u%04x", (int) character));
                     } else {
                         output.append(character);
                     }
-                }
             }
         }
         output.append('"');

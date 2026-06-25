@@ -1,4 +1,4 @@
-package ca.bobszabo.messagebridge;
+package io.github.rszabo50.messagebridge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,16 +6,21 @@ import java.util.Objects;
 
 /**
  * Per-destination result of a broadcast send attempt.
- *
- * @param outcomes send outcomes ordered like the broadcast destinations
  */
-public record BroadcastSendResult(List<DestinationOutcome> outcomes) {
-    public BroadcastSendResult {
-        outcomes = List.copyOf(Objects.requireNonNull(outcomes, "outcomes"));
+public final class BroadcastSendResult {
+    private final List<DestinationOutcome> outcomes;
+
+    public BroadcastSendResult(List<DestinationOutcome> outcomes) {
+        this.outcomes = java.util.Collections.unmodifiableList(new ArrayList<>(
+                Objects.requireNonNull(outcomes, "outcomes")));
     }
 
     static Builder builder() {
         return new Builder();
+    }
+
+    public List<DestinationOutcome> outcomes() {
+        return outcomes;
     }
 
     /**
@@ -29,12 +34,30 @@ public record BroadcastSendResult(List<DestinationOutcome> outcomes) {
 
     /**
      * Outcome for one broadcast destination.
-     *
-     * @param destinationIndex zero-based destination position
-     * @param result send result when transport returned a response
-     * @param failure exception thrown while sending, if any
      */
-    public record DestinationOutcome(int destinationIndex, SendResult result, Exception failure) {
+    public static final class DestinationOutcome {
+        private final int destinationIndex;
+        private final SendResult result;
+        private final Exception failure;
+
+        public DestinationOutcome(int destinationIndex, SendResult result, Exception failure) {
+            this.destinationIndex = destinationIndex;
+            this.result = result;
+            this.failure = failure;
+        }
+
+        public int destinationIndex() {
+            return destinationIndex;
+        }
+
+        public SendResult result() {
+            return result;
+        }
+
+        public Exception failure() {
+            return failure;
+        }
+
         /**
          * Reports whether this destination accepted the message.
          *

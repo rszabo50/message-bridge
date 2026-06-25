@@ -1,6 +1,6 @@
 # message-bridge
 
-`message-bridge` is a small Java 21 library for sending outbound messages to chat platforms through incoming webhooks.
+`message-bridge` is a small Java 11 library for sending outbound messages to chat platforms through incoming webhooks.
 
 It is intentionally a library, not an application. There is no CLI, server runtime, framework bootstrap, or platform SDK dependency.
 
@@ -15,7 +15,7 @@ It is intentionally a library, not an application. There is no CLI, server runti
 
 ```xml
 <dependency>
-    <groupId>ca.bobszabo</groupId>
+    <groupId>io.github.rszabo50</groupId>
     <artifactId>message-bridge</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 </dependency>
@@ -24,10 +24,10 @@ It is intentionally a library, not an application. There is no CLI, server runti
 ## Send A Message
 
 ```java
-import ca.bobszabo.messagebridge.MessageBridge;
-import ca.bobszabo.messagebridge.MessageSender;
-import ca.bobszabo.messagebridge.OutboundMessage;
-import ca.bobszabo.messagebridge.webhook.ChatPlatform;
+import io.github.rszabo50.messagebridge.MessageBridge;
+import io.github.rszabo50.messagebridge.MessageSender;
+import io.github.rszabo50.messagebridge.OutboundMessage;
+import io.github.rszabo50.messagebridge.webhook.ChatPlatform;
 
 import java.net.URI;
 
@@ -98,9 +98,13 @@ OutboundMessage message = OutboundMessage.text("Incident resolved")
 
 Supported override values are JSON-compatible values: strings, numbers, booleans, nulls, maps with string keys, iterables, and arrays.
 
+## License
+
+This project uses the Zero-Clause BSD license. See [LICENSE](LICENSE).
+
 ## Design Notes
 
-- Java 21 baseline.
+- Java 11 baseline.
 - Runtime dependencies: none.
 - HTTP transport: Java `HttpClient`.
 - Webhook URLs are secrets; load them from environment variables or your application's secret store.
@@ -150,3 +154,5 @@ mvn -Prelease-artifacts verify
 ```
 
 Public repository publishing is intentionally not configured yet. Before publishing to a shared repository, define the real project license, project URL, SCM URL, developer metadata, signing requirements, and target repository.
+
+See [PUBLISHING.md](PUBLISHING.md) for the publishing metadata checklist.

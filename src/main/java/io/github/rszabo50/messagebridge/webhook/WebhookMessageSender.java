@@ -1,8 +1,8 @@
-package ca.bobszabo.messagebridge.webhook;
+package io.github.rszabo50.messagebridge.webhook;
 
-import ca.bobszabo.messagebridge.MessageSender;
-import ca.bobszabo.messagebridge.OutboundMessage;
-import ca.bobszabo.messagebridge.SendResult;
+import io.github.rszabo50.messagebridge.MessageSender;
+import io.github.rszabo50.messagebridge.OutboundMessage;
+import io.github.rszabo50.messagebridge.SendResult;
 
 import java.io.IOException;
 import java.net.URI;

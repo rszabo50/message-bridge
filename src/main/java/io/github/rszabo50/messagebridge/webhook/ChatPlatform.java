@@ -1,4 +1,4 @@
-package ca.bobszabo.messagebridge.webhook;
+package io.github.rszabo50.messagebridge.webhook;
 
 /**
  * Chat platforms supported by the webhook sender.

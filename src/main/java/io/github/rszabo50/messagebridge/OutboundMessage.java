@@ -1,4 +1,4 @@
-package ca.bobszabo.messagebridge;
+package io.github.rszabo50.messagebridge;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -10,17 +10,26 @@ import java.util.Objects;
  *
  * <p>The core model is plain text. Platform-specific webhook JSON fields can be
  * supplied through {@link #platformOverrides()}.</p>
- *
- * @param text the message text
- * @param platformOverrides top-level platform-specific JSON fields
  */
-public record OutboundMessage(String text, Map<String, Object> platformOverrides) {
-    public OutboundMessage {
+public final class OutboundMessage {
+    private final String text;
+    private final Map<String, Object> platformOverrides;
+
+    public OutboundMessage(String text, Map<String, Object> platformOverrides) {
         if (text == null || text.isBlank()) {
             throw new IllegalArgumentException("text must not be blank");
         }
-        platformOverrides = Collections.unmodifiableMap(new LinkedHashMap<>(
+        this.text = text;
+        this.platformOverrides = Collections.unmodifiableMap(new LinkedHashMap<>(
                 Objects.requireNonNull(platformOverrides, "platformOverrides")));
+    }
+
+    public String text() {
+        return text;
+    }
+
+    public Map<String, Object> platformOverrides() {
+        return platformOverrides;
     }
 
     /**
@@ -30,7 +39,7 @@ public record OutboundMessage(String text, Map<String, Object> platformOverrides
      * @return an outbound message
      */
     public static OutboundMessage text(String text) {
-        return new OutboundMessage(text, Map.of());
+        return new OutboundMessage(text, Collections.emptyMap());
     }
 
     /**

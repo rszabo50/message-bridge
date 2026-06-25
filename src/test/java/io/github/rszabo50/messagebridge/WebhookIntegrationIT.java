@@ -1,6 +1,6 @@
-package ca.bobszabo.messagebridge;
+package io.github.rszabo50.messagebridge;
 
-import ca.bobszabo.messagebridge.webhook.ChatPlatform;
+import io.github.rszabo50.messagebridge.webhook.ChatPlatform;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;

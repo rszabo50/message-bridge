@@ -1,4 +1,4 @@
-package ca.bobszabo.messagebridge;
+package io.github.rszabo50.messagebridge;
 
 import java.io.IOException;
 

@@ -1,9 +1,9 @@
-package ca.bobszabo.messagebridge;
+package io.github.rszabo50.messagebridge;
 
-import ca.bobszabo.messagebridge.webhook.ChatPlatform;
-import ca.bobszabo.messagebridge.webhook.JavaHttpWebhookClient;
-import ca.bobszabo.messagebridge.webhook.WebhookClient;
-import ca.bobszabo.messagebridge.webhook.WebhookMessageSender;
+import io.github.rszabo50.messagebridge.webhook.ChatPlatform;
+import io.github.rszabo50.messagebridge.webhook.JavaHttpWebhookClient;
+import io.github.rszabo50.messagebridge.webhook.WebhookClient;
+import io.github.rszabo50.messagebridge.webhook.WebhookMessageSender;
 
 import java.net.URI;
 import java.util.List;

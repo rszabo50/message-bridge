@@ -1,11 +1,11 @@
-package ca.bobszabo.messagebridge;
+package io.github.rszabo50.messagebridge;
 
-import ca.bobszabo.messagebridge.webhook.ChatPlatform;
+import io.github.rszabo50.messagebridge.webhook.ChatPlatform;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +43,7 @@ class MessageBridgeTest {
                 webhookClient);
 
         sender.send(OutboundMessage.text("Deployment started")
-                .withPlatformOverride("allowed_mentions", Map.of("parse", List.of())));
+                .withPlatformOverride("allowed_mentions", Collections.singletonMap("parse", Collections.emptyList())));
 
         assertEquals(
                 "{\"content\":\"Deployment started\",\"allowed_mentions\":{\"parse\":[]}}",
@@ -104,7 +104,7 @@ class MessageBridgeTest {
                 .withPlatformOverride("created_at", new Date())));
     }
 
-    private static final class CapturingWebhookClient implements ca.bobszabo.messagebridge.webhook.WebhookClient {
+    private static final class CapturingWebhookClient implements io.github.rszabo50.messagebridge.webhook.WebhookClient {
         private URI webhookUri;
         private String jsonPayload;
 

@@ -4,17 +4,42 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ca.bobszabo</groupId>
+    <groupId>io.github.rszabo50</groupId>
     <artifactId>message-bridge</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>message-bridge</name>
     <description>Webhook-oriented Java messaging bridge for chat and notification platforms.</description>
+    <url>https://github.com/rszabo50/message-bridge</url>
+
+    <licenses>
+        <license>
+            <name>Zero-Clause BSD</name>
+            <url>https://opensource.org/license/0bsd</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>rszabo50</id>
+            <name>rszabo50</name>
+            <url>https://github.com/rszabo50</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/rszabo50/message-bridge.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/rszabo50/message-bridge.git</developerConnection>
+        <url>https://github.com/rszabo50/message-bridge</url>
+    </scm>
 
     <properties>
-        <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <central.publish.version>0.9.0</central.publish.version>
+        <maven.gpg.version>3.2.7</maven.gpg.version>
         <junit.jupiter.version>5.10.3</junit.jupiter.version>
         <maven.failsafe.version>3.2.5</maven.failsafe.version>
         <maven.javadoc.version>3.6.3</maven.javadoc.version>
@@ -58,6 +83,17 @@
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${maven.source.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven.gpg.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>${central.publish.version}</version>
+                    <extensions>true</extensions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -90,6 +126,58 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>central-publishing</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

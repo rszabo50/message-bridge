@@ -1,7 +1,7 @@
-package ca.bobszabo.messagebridge.webhook;
+package io.github.rszabo50.messagebridge.webhook;
 
-import ca.bobszabo.messagebridge.OutboundMessage;
-import ca.bobszabo.messagebridge.internal.JsonWriter;
+import io.github.rszabo50.messagebridge.OutboundMessage;
+import io.github.rszabo50.messagebridge.internal.JsonWriter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -11,11 +11,21 @@ final class WebhookPayloads {
     }
 
     static String toJson(ChatPlatform platform, OutboundMessage message) {
-        Map<String, Object> payload = switch (platform) {
-            case SLACK, MATTERMOST -> textPayload(message);
-            case DISCORD -> discordPayload(message);
-            case MICROSOFT_TEAMS -> teamsMessageCardPayload(message);
-        };
+        Map<String, Object> payload;
+        switch (platform) {
+            case SLACK:
+            case MATTERMOST:
+                payload = textPayload(message);
+                break;
+            case DISCORD:
+                payload = discordPayload(message);
+                break;
+            case MICROSOFT_TEAMS:
+                payload = teamsMessageCardPayload(message);
+                break;
+            default:
+                throw new IllegalArgumentException("unsupported chat platform: " + platform);
+        }
 
         payload.putAll(message.platformOverrides());
         return JsonWriter.write(payload);

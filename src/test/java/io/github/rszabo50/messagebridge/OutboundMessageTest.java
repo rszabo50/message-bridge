@@ -1,7 +1,8 @@
-package ca.bobszabo.messagebridge;
+package io.github.rszabo50.messagebridge;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,7 +34,7 @@ class OutboundMessageTest {
     void builderAddsMultiplePlatformOverrides() {
         OutboundMessage message = OutboundMessage.builder("Hello")
                 .platformOverride("username", "bridge")
-                .platformOverrides(Map.of("channel", "engineering"))
+                .platformOverrides(Collections.singletonMap("channel", "engineering"))
                 .build();
 
         assertEquals("Hello", message.text());

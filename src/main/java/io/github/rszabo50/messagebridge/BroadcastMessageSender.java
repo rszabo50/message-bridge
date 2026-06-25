@@ -1,4 +1,4 @@
-package ca.bobszabo.messagebridge;
+package io.github.rszabo50.messagebridge;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +15,7 @@ public final class BroadcastMessageSender {
         if (destinations.isEmpty()) {
             throw new IllegalArgumentException("destinations must not be empty");
         }
-        this.destinations = List.copyOf(destinations);
+        this.destinations = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(destinations));
     }
 
     /**
