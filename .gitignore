@@ -50,6 +50,7 @@ nbdist/
 !.env.example
 *.key
 *.pem
+*.asc
 *.p12
 *.jks
 
