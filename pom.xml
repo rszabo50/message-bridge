@@ -126,6 +126,9 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <excludePackageNames>*.internal</excludePackageNames>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -158,6 +161,9 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <excludePackageNames>*.internal</excludePackageNames>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

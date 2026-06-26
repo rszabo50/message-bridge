@@ -10,16 +10,28 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Objects;
 
+/**
+ * Webhook client backed by Java's built-in {@link HttpClient}.
+ */
 public final class JavaHttpWebhookClient implements WebhookClient {
     private static final Duration DEFAULT_REQUEST_TIMEOUT = Duration.ofSeconds(10);
 
     private final HttpClient httpClient;
     private final Duration requestTimeout;
 
+    /**
+     * Creates a client with the default Java HTTP client and timeout.
+     */
     public JavaHttpWebhookClient() {
         this(HttpClient.newHttpClient(), DEFAULT_REQUEST_TIMEOUT);
     }
 
+    /**
+     * Creates a client with caller-provided HTTP transport settings.
+     *
+     * @param httpClient Java HTTP client
+     * @param requestTimeout request timeout
+     */
     public JavaHttpWebhookClient(HttpClient httpClient, Duration requestTimeout) {
         this.httpClient = Objects.requireNonNull(httpClient, "httpClient");
         this.requestTimeout = Objects.requireNonNull(requestTimeout, "requestTimeout");

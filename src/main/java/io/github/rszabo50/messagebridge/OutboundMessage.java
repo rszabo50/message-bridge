@@ -15,6 +15,12 @@ public final class OutboundMessage {
     private final String text;
     private final Map<String, Object> platformOverrides;
 
+    /**
+     * Creates an outbound message.
+     *
+     * @param text the message text
+     * @param platformOverrides top-level platform-specific JSON fields
+     */
     public OutboundMessage(String text, Map<String, Object> platformOverrides) {
         if (text == null || text.isBlank()) {
             throw new IllegalArgumentException("text must not be blank");
@@ -24,10 +30,20 @@ public final class OutboundMessage {
                 Objects.requireNonNull(platformOverrides, "platformOverrides")));
     }
 
+    /**
+     * Returns the message text.
+     *
+     * @return message text
+     */
     public String text() {
         return text;
     }
 
+    /**
+     * Returns top-level platform-specific JSON fields.
+     *
+     * @return platform override fields
+     */
     public Map<String, Object> platformOverrides() {
         return platformOverrides;
     }

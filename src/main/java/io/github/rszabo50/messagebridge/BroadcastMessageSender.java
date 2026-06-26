@@ -10,6 +10,11 @@ import java.util.Objects;
 public final class BroadcastMessageSender {
     private final List<MessageSender> destinations;
 
+    /**
+     * Creates a broadcast sender.
+     *
+     * @param destinations destinations that should receive each message
+     */
     public BroadcastMessageSender(List<MessageSender> destinations) {
         Objects.requireNonNull(destinations, "destinations");
         if (destinations.isEmpty()) {

@@ -10,6 +10,11 @@ import java.util.Objects;
 public final class BroadcastSendResult {
     private final List<DestinationOutcome> outcomes;
 
+    /**
+     * Creates a broadcast result from ordered destination outcomes.
+     *
+     * @param outcomes send outcomes ordered like the broadcast destinations
+     */
     public BroadcastSendResult(List<DestinationOutcome> outcomes) {
         this.outcomes = java.util.Collections.unmodifiableList(new ArrayList<>(
                 Objects.requireNonNull(outcomes, "outcomes")));
@@ -19,6 +24,11 @@ public final class BroadcastSendResult {
         return new Builder();
     }
 
+    /**
+     * Returns send outcomes ordered like the broadcast destinations.
+     *
+     * @return per-destination outcomes
+     */
     public List<DestinationOutcome> outcomes() {
         return outcomes;
     }
@@ -40,20 +50,42 @@ public final class BroadcastSendResult {
         private final SendResult result;
         private final Exception failure;
 
+        /**
+         * Creates a destination outcome.
+         *
+         * @param destinationIndex zero-based destination position
+         * @param result send result when transport returned a response
+         * @param failure exception thrown while sending, if any
+         */
         public DestinationOutcome(int destinationIndex, SendResult result, Exception failure) {
             this.destinationIndex = destinationIndex;
             this.result = result;
             this.failure = failure;
         }
 
+        /**
+         * Returns the zero-based destination position.
+         *
+         * @return destination position
+         */
         public int destinationIndex() {
             return destinationIndex;
         }
 
+        /**
+         * Returns the send result when transport returned a response.
+         *
+         * @return send result, or null when sending failed before a response
+         */
         public SendResult result() {
             return result;
         }
 
+        /**
+         * Returns the failure thrown while sending.
+         *
+         * @return failure, or null when the destination returned a response
+         */
         public Exception failure() {
             return failure;
         }
