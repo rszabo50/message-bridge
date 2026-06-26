@@ -35,8 +35,9 @@ class WebhookIntegrationIT {
         assumeTrue(webhookUrl != null && !webhookUrl.isBlank(), environmentVariable + " is not configured");
 
         MessageSender sender = MessageBridge.webhookSender(platform, URI.create(webhookUrl));
+        String label = System.getenv().getOrDefault("MESSAGE_BRIDGE_TEST_LABEL", "local");
         SendResult result = sender.send(OutboundMessage.text(
-                "message-bridge integration test: " + platform + " at " + Instant.now()));
+                "message-bridge integration test [" + label + "]: " + platform + " at " + Instant.now()));
 
         assertTrue(result.success(), () -> platform + " webhook returned " + result.statusCode()
                 + " with body: " + result.body());

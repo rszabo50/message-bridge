@@ -134,12 +134,21 @@ mvn -Pwebhook-integration verify
 
 Each variable is optional. Tests without a matching environment variable are skipped.
 
+For a Slack-only end-to-end test:
+
+```shell
+MESSAGE_BRIDGE_SLACK_WEBHOOK_URL="https://hooks.slack.com/services/..." \
+MESSAGE_BRIDGE_TEST_LABEL="slack-smoke" \
+mvn -Pwebhook-integration -Dit.test=WebhookIntegrationIT#sendsSlackWebhookMessage verify
+```
+
 | Platform | Environment Variable | Expected Value |
 | --- | --- | --- |
 | Slack | `MESSAGE_BRIDGE_SLACK_WEBHOOK_URL` | Slack incoming webhook URL |
 | Mattermost | `MESSAGE_BRIDGE_MATTERMOST_WEBHOOK_URL` | Mattermost incoming webhook URL |
 | Discord | `MESSAGE_BRIDGE_DISCORD_WEBHOOK_URL` | Discord webhook URL |
 | Microsoft Teams | `MESSAGE_BRIDGE_TEAMS_WEBHOOK_URL` | Teams workflow or webhook URL |
+| Test label | `MESSAGE_BRIDGE_TEST_LABEL` | Optional label included in test messages |
 
 Do not store real webhook URLs in source control, test resources, shell history shared with others, or CI logs. Configure them through local environment variables or your CI secret store.
 
