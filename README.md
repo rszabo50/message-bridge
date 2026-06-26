@@ -102,6 +102,10 @@ Supported override values are JSON-compatible values: strings, numbers, booleans
 
 This project uses the Zero-Clause BSD license. See [LICENSE](LICENSE).
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
+
 ## Design Notes
 
 - Java 11 baseline.
