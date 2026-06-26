@@ -24,6 +24,12 @@ The Maven Central profile expects Sonatype Central Portal credentials under the 
 mvn -Pcentral-publishing deploy
 ```
 
+The release workflow keeps `pom.xml` on a snapshot version in source control. On tag builds, it strips the leading `v` from the tag and runs:
+
+```shell
+mvn --batch-mode versions:set -DnewVersion=<tag-version> -DgenerateBackupPoms=false
+```
+
 Configured metadata:
 
 | Metadata | Value |
@@ -53,7 +59,11 @@ The public GPG key must be available from a public keyserver before Maven Centra
 
 The CI workflow runs on pushes and pull requests to `main`.
 
-The release workflow runs manually or when a tag matching `v*` is pushed:
+The release workflow runs only when a release tag is pushed. Accepted tag patterns:
+
+- `v1.2.3`
+- `v1.2.3-rc.1`
+- `v1.2.3-beta.2`
 
 ```shell
 git tag v0.1.0
