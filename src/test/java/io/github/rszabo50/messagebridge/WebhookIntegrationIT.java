@@ -1,6 +1,7 @@
 package io.github.rszabo50.messagebridge;
 
 import io.github.rszabo50.messagebridge.webhook.ChatPlatform;
+import io.github.rszabo50.messagebridge.webhook.slack.SlackMessage;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
@@ -13,6 +14,19 @@ class WebhookIntegrationIT {
     @Test
     void sendsSlackWebhookMessage() throws Exception {
         sendIfConfigured(ChatPlatform.SLACK, "MESSAGE_BRIDGE_SLACK_WEBHOOK_URL");
+    }
+
+    @Test
+    void sendsSlackRichWebhookMessage() throws Exception {
+        String label = testLabel();
+        sendIfConfigured(
+                ChatPlatform.SLACK,
+                "MESSAGE_BRIDGE_SLACK_WEBHOOK_URL",
+                SlackMessage.builder("message-bridge rich Slack integration test [" + label + "]")
+                        .markdownSection("*message-bridge rich Slack integration test*")
+                        .markdownFields("*Label*\n" + label, "*Platform*\nSlack")
+                        .markdownContext("sent at " + Instant.now())
+                        .build());
     }
 
     @Test
@@ -31,15 +45,25 @@ class WebhookIntegrationIT {
     }
 
     private static void sendIfConfigured(ChatPlatform platform, String environmentVariable) throws Exception {
+        sendIfConfigured(platform, environmentVariable, OutboundMessage.text(
+                "message-bridge integration test [" + testLabel() + "]: " + platform + " at " + Instant.now()));
+    }
+
+    private static void sendIfConfigured(
+            ChatPlatform platform,
+            String environmentVariable,
+            OutboundMessage message) throws Exception {
         String webhookUrl = System.getenv(environmentVariable);
         assumeTrue(webhookUrl != null && !webhookUrl.isBlank(), environmentVariable + " is not configured");
 
         MessageSender sender = MessageBridge.webhookSender(platform, URI.create(webhookUrl));
-        String label = System.getenv().getOrDefault("MESSAGE_BRIDGE_TEST_LABEL", "local");
-        SendResult result = sender.send(OutboundMessage.text(
-                "message-bridge integration test [" + label + "]: " + platform + " at " + Instant.now()));
+        SendResult result = sender.send(message);
 
         assertTrue(result.success(), () -> platform + " webhook returned " + result.statusCode()
                 + " with body: " + result.body());
+    }
+
+    private static String testLabel() {
+        return System.getenv().getOrDefault("MESSAGE_BRIDGE_TEST_LABEL", "local");
     }
 }

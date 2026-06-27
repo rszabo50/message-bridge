@@ -98,6 +98,24 @@ OutboundMessage message = OutboundMessage.text("Incident resolved")
 
 Supported override values are JSON-compatible values: strings, numbers, booleans, nulls, maps with string keys, iterables, and arrays.
 
+## Slack Rich Messages
+
+Slack Block Kit messages can be built without adding Slack SDK dependencies:
+
+```java
+import io.github.rszabo50.messagebridge.OutboundMessage;
+import io.github.rszabo50.messagebridge.webhook.slack.SlackMessage;
+
+OutboundMessage message = SlackMessage.builder("Build failed")
+        .markdownSection("*Build failed*")
+        .divider()
+        .markdownFields("*Project*\nmessage-bridge", "*Branch*\nmain")
+        .markdownContext("ci smoke")
+        .build();
+```
+
+The message keeps fallback `text` and adds Slack `blocks` as platform overrides.
+
 ## License
 
 This project uses the Zero-Clause BSD license. See [LICENSE](LICENSE).
@@ -140,6 +158,14 @@ For a Slack-only end-to-end test:
 MESSAGE_BRIDGE_SLACK_WEBHOOK_URL="https://hooks.slack.com/services/..." \
 MESSAGE_BRIDGE_TEST_LABEL="slack-smoke" \
 mvn -Pwebhook-integration -Dit.test=WebhookIntegrationIT#sendsSlackWebhookMessage verify
+```
+
+For a Slack rich-message end-to-end test:
+
+```shell
+MESSAGE_BRIDGE_SLACK_WEBHOOK_URL="https://hooks.slack.com/services/..." \
+MESSAGE_BRIDGE_TEST_LABEL="slack-rich-smoke" \
+mvn -Pwebhook-integration -Dit.test=WebhookIntegrationIT#sendsSlackRichWebhookMessage verify
 ```
 
 | Platform | Environment Variable | Expected Value |
