@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Immutable outbound message model with platform-specific JSON overrides.
 - Fluent `OutboundMessage.Builder` for composing messages with multiple overrides.
 - Slack Block Kit builder for common rich incoming webhook messages.
+- Discord embed builder for common rich incoming webhook messages.
 - Broadcast sender for sending the same message to multiple destinations during vendor transitions.
 - Java `HttpClient` based webhook transport with no runtime dependencies.
 - Opt-in real webhook integration tests.
