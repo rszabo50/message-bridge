@@ -4,10 +4,13 @@ import io.github.rszabo50.messagebridge.webhook.ChatPlatform;
 import io.github.rszabo50.messagebridge.webhook.discord.DiscordMessage;
 import io.github.rszabo50.messagebridge.webhook.mattermost.MattermostMessage;
 import io.github.rszabo50.messagebridge.webhook.slack.SlackMessage;
+import io.github.rszabo50.messagebridge.webhook.teams.TeamsMessage;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 import java.time.Instant;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -79,6 +82,24 @@ class WebhookIntegrationIT {
     @Test
     void sendsTeamsWebhookMessage() throws Exception {
         sendIfConfigured(ChatPlatform.MICROSOFT_TEAMS, "MESSAGE_BRIDGE_TEAMS_WEBHOOK_URL");
+    }
+
+    @Test
+    void sendsTeamsRichWebhookMessage() throws Exception {
+        String label = testLabel();
+        Map<String, String> facts = new LinkedHashMap<>();
+        facts.put("Label", label);
+        facts.put("Platform", "Microsoft Teams");
+
+        sendIfConfigured(
+                ChatPlatform.MICROSOFT_TEAMS,
+                "MESSAGE_BRIDGE_TEAMS_WEBHOOK_URL",
+                TeamsMessage.builder("message-bridge rich Teams integration test [" + label + "]")
+                        .heading("message-bridge rich Teams integration test")
+                        .textBlock("Teams Adaptive Card payload sent through message-bridge.", true)
+                        .facts(facts)
+                        .textBlock("sent at " + Instant.now(), true)
+                        .build());
     }
 
     private static void sendIfConfigured(ChatPlatform platform, String environmentVariable) throws Exception {
