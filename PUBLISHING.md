@@ -66,8 +66,8 @@ The release workflow runs only when a release tag is pushed. Accepted tag patter
 - `v1.2.3-beta.2`
 
 ```shell
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.2.0
+git push origin v0.2.0
 ```
 
 ## Not Yet Configured

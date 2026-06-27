@@ -17,7 +17,7 @@ It is intentionally a library, not an application. There is no CLI, server runti
 <dependency>
     <groupId>io.github.rszabo50</groupId>
     <artifactId>message-bridge</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
 </dependency>
 ```
 
