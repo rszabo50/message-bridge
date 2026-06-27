@@ -137,6 +137,28 @@ OutboundMessage message = DiscordMessage.builder("Build failed")
 
 The message keeps Discord `content` and adds Discord `embeds` as platform overrides.
 
+## Mattermost Rich Messages
+
+Mattermost attachment messages can be built without adding Mattermost SDK dependencies:
+
+```java
+import io.github.rszabo50.messagebridge.OutboundMessage;
+import io.github.rszabo50.messagebridge.webhook.mattermost.MattermostMessage;
+
+OutboundMessage message = MattermostMessage.builder("Build failed")
+        .attachment("Build failed", attachment -> attachment
+                .color(0xE01E5A)
+                .pretext("CI notification")
+                .text("The main branch build failed.")
+                .title("Build failed", "https://example.test/builds/1")
+                .field("Project", "message-bridge", true)
+                .field("Branch", "main", true)
+                .footer("ci"))
+        .build();
+```
+
+The message keeps Mattermost `text` and adds Mattermost `attachments` as platform overrides.
+
 ## License
 
 This project uses the Zero-Clause BSD license. See [LICENSE](LICENSE).
@@ -195,6 +217,14 @@ For a Discord rich-message end-to-end test:
 MESSAGE_BRIDGE_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/..." \
 MESSAGE_BRIDGE_TEST_LABEL="discord-rich-smoke" \
 mvn -Pwebhook-integration -Dit.test=WebhookIntegrationIT#sendsDiscordRichWebhookMessage verify
+```
+
+For a Mattermost rich-message end-to-end test:
+
+```shell
+MESSAGE_BRIDGE_MATTERMOST_WEBHOOK_URL="https://mattermost.example/hooks/..." \
+MESSAGE_BRIDGE_TEST_LABEL="mattermost-rich-smoke" \
+mvn -Pwebhook-integration -Dit.test=WebhookIntegrationIT#sendsMattermostRichWebhookMessage verify
 ```
 
 | Platform | Environment Variable | Expected Value |

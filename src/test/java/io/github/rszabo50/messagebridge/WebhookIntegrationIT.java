@@ -2,6 +2,7 @@ package io.github.rszabo50.messagebridge;
 
 import io.github.rszabo50.messagebridge.webhook.ChatPlatform;
 import io.github.rszabo50.messagebridge.webhook.discord.DiscordMessage;
+import io.github.rszabo50.messagebridge.webhook.mattermost.MattermostMessage;
 import io.github.rszabo50.messagebridge.webhook.slack.SlackMessage;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +34,23 @@ class WebhookIntegrationIT {
     @Test
     void sendsMattermostWebhookMessage() throws Exception {
         sendIfConfigured(ChatPlatform.MATTERMOST, "MESSAGE_BRIDGE_MATTERMOST_WEBHOOK_URL");
+    }
+
+    @Test
+    void sendsMattermostRichWebhookMessage() throws Exception {
+        String label = testLabel();
+        sendIfConfigured(
+                ChatPlatform.MATTERMOST,
+                "MESSAGE_BRIDGE_MATTERMOST_WEBHOOK_URL",
+                MattermostMessage.builder("message-bridge rich Mattermost integration test [" + label + "]")
+                        .attachment("message-bridge rich Mattermost integration test", attachment -> attachment
+                                .color(0x2EB67D)
+                                .pretext("message-bridge rich Mattermost integration test")
+                                .text("Mattermost attachment payload sent through message-bridge.")
+                                .field("Label", label, true)
+                                .field("Platform", "Mattermost", true)
+                                .footer("sent at " + Instant.now()))
+                        .build());
     }
 
     @Test
