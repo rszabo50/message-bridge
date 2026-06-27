@@ -159,6 +159,24 @@ OutboundMessage message = MattermostMessage.builder("Build failed")
 
 The message keeps Mattermost `text` and adds Mattermost `attachments` as platform overrides.
 
+## Microsoft Teams Rich Messages
+
+Teams Adaptive Card messages can be built without adding Microsoft SDK dependencies:
+
+```java
+import io.github.rszabo50.messagebridge.OutboundMessage;
+import io.github.rszabo50.messagebridge.webhook.teams.TeamsMessage;
+
+OutboundMessage message = TeamsMessage.builder("Build failed")
+        .heading("Build failed")
+        .textBlock("The main branch build failed.", true)
+        .facts(Map.of("Project", "message-bridge", "Branch", "main"))
+        .openUrlAction("Open build", "https://example.test/builds/1")
+        .build();
+```
+
+The message adds Teams Adaptive Card `attachments` as platform overrides. Teams Workflows and incoming webhooks can process Adaptive Card payloads.
+
 ## License
 
 This project uses the Zero-Clause BSD license. See [LICENSE](LICENSE).
@@ -225,6 +243,14 @@ For a Mattermost rich-message end-to-end test:
 MESSAGE_BRIDGE_MATTERMOST_WEBHOOK_URL="https://mattermost.example/hooks/..." \
 MESSAGE_BRIDGE_TEST_LABEL="mattermost-rich-smoke" \
 mvn -Pwebhook-integration -Dit.test=WebhookIntegrationIT#sendsMattermostRichWebhookMessage verify
+```
+
+For a Teams rich-message end-to-end test:
+
+```shell
+MESSAGE_BRIDGE_TEAMS_WEBHOOK_URL="https://..." \
+MESSAGE_BRIDGE_TEST_LABEL="teams-rich-smoke" \
+mvn -Pwebhook-integration -Dit.test=WebhookIntegrationIT#sendsTeamsRichWebhookMessage verify
 ```
 
 | Platform | Environment Variable | Expected Value |

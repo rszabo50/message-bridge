@@ -21,7 +21,7 @@ final class WebhookPayloads {
                 payload = discordPayload(message);
                 break;
             case MICROSOFT_TEAMS:
-                payload = teamsMessageCardPayload(message);
+                payload = teamsPayload(message);
                 break;
             default:
                 throw new IllegalArgumentException("unsupported chat platform: " + platform);
@@ -50,5 +50,12 @@ final class WebhookPayloads {
         payload.put("summary", message.text());
         payload.put("text", message.text());
         return payload;
+    }
+
+    private static Map<String, Object> teamsPayload(OutboundMessage message) {
+        if (message.platformOverrides().containsKey("attachments")) {
+            return new LinkedHashMap<>();
+        }
+        return teamsMessageCardPayload(message);
     }
 }
