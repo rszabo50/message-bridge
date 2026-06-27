@@ -116,6 +116,27 @@ OutboundMessage message = SlackMessage.builder("Build failed")
 
 The message keeps fallback `text` and adds Slack `blocks` as platform overrides.
 
+## Discord Rich Messages
+
+Discord embed messages can be built without adding Discord SDK dependencies:
+
+```java
+import io.github.rszabo50.messagebridge.OutboundMessage;
+import io.github.rszabo50.messagebridge.webhook.discord.DiscordMessage;
+
+OutboundMessage message = DiscordMessage.builder("Build failed")
+        .embed(embed -> embed
+                .title("Build failed")
+                .description("The main branch build failed.")
+                .color(0xE01E5A)
+                .field("Project", "message-bridge", true)
+                .field("Branch", "main", true)
+                .footer("ci"))
+        .build();
+```
+
+The message keeps Discord `content` and adds Discord `embeds` as platform overrides.
+
 ## License
 
 This project uses the Zero-Clause BSD license. See [LICENSE](LICENSE).
@@ -166,6 +187,14 @@ For a Slack rich-message end-to-end test:
 MESSAGE_BRIDGE_SLACK_WEBHOOK_URL="https://hooks.slack.com/services/..." \
 MESSAGE_BRIDGE_TEST_LABEL="slack-rich-smoke" \
 mvn -Pwebhook-integration -Dit.test=WebhookIntegrationIT#sendsSlackRichWebhookMessage verify
+```
+
+For a Discord rich-message end-to-end test:
+
+```shell
+MESSAGE_BRIDGE_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/..." \
+MESSAGE_BRIDGE_TEST_LABEL="discord-rich-smoke" \
+mvn -Pwebhook-integration -Dit.test=WebhookIntegrationIT#sendsDiscordRichWebhookMessage verify
 ```
 
 | Platform | Environment Variable | Expected Value |

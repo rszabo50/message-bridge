@@ -1,6 +1,7 @@
 package io.github.rszabo50.messagebridge;
 
 import io.github.rszabo50.messagebridge.webhook.ChatPlatform;
+import io.github.rszabo50.messagebridge.webhook.discord.DiscordMessage;
 import io.github.rszabo50.messagebridge.webhook.slack.SlackMessage;
 import org.junit.jupiter.api.Test;
 
@@ -37,6 +38,24 @@ class WebhookIntegrationIT {
     @Test
     void sendsDiscordWebhookMessage() throws Exception {
         sendIfConfigured(ChatPlatform.DISCORD, "MESSAGE_BRIDGE_DISCORD_WEBHOOK_URL");
+    }
+
+    @Test
+    void sendsDiscordRichWebhookMessage() throws Exception {
+        String label = testLabel();
+        sendIfConfigured(
+                ChatPlatform.DISCORD,
+                "MESSAGE_BRIDGE_DISCORD_WEBHOOK_URL",
+                DiscordMessage.builder("message-bridge rich Discord integration test [" + label + "]")
+                        .embed(embed -> embed
+                                .title("message-bridge rich Discord integration test")
+                                .description("Discord embed payload sent through message-bridge.")
+                                .color(0x5865F2)
+                                .field("Label", label, true)
+                                .field("Platform", "Discord", true)
+                                .timestamp(Instant.now())
+                                .footer("message-bridge"))
+                        .build());
     }
 
     @Test
