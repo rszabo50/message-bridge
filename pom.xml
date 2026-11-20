@@ -38,13 +38,13 @@
     <properties>
         <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <central.publish.version>0.9.0</central.publish.version>
-        <maven.gpg.version>3.2.7</maven.gpg.version>
-        <junit.jupiter.version>5.10.3</junit.jupiter.version>
-        <maven.failsafe.version>3.2.5</maven.failsafe.version>
-        <maven.javadoc.version>3.6.3</maven.javadoc.version>
-        <maven.source.version>3.3.1</maven.source.version>
-        <versions.maven.plugin.version>2.17.1</versions.maven.plugin.version>
+        <central.publish.version>0.12.0</central.publish.version>
+        <maven.gpg.version>3.2.8</maven.gpg.version>
+        <junit.jupiter.version>5.14.4</junit.jupiter.version>
+        <maven.failsafe.version>3.6.1</maven.failsafe.version>
+        <maven.javadoc.version>3.12.0</maven.javadoc.version>
+        <maven.source.version>3.4.0</maven.source.version>
+        <versions.maven.plugin.version>2.25.2</versions.maven.plugin.version>
     </properties>
 
     <dependencies>
@@ -62,12 +62,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.13.0</version>
+                    <version>3.16.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.2.5</version>
+                    <version>3.6.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

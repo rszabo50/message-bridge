@@ -4,6 +4,8 @@
 
 It is intentionally a library, not an application. There is no CLI, server runtime, framework bootstrap, or platform SDK dependency.
 
+The JAR targets Java 11 and runs on Java 11 or newer. Builds can use JDK 11 or JDK 21; Maven compiles with `--release 11`, and CI checks both JDKs. JUnit is used only for tests, so consumers have no transitive runtime dependencies.
+
 ## Supported Webhook Targets
 
 - Slack
@@ -13,11 +15,13 @@ It is intentionally a library, not an application. There is no CLI, server runti
 
 ## Install
 
+The current `0.2.0-SNAPSHOT` can be installed locally with `mvn install`. Replace the version below with a released version once it is available in Maven Central.
+
 ```xml
 <dependency>
     <groupId>io.github.rszabo50</groupId>
     <artifactId>message-bridge</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -277,6 +281,4 @@ Build release-style artifacts with source and Javadoc jars:
 mvn -Prelease-artifacts verify
 ```
 
-Public repository publishing is intentionally not configured yet. Before publishing to a shared repository, define the real project license, project URL, SCM URL, developer metadata, signing requirements, and target repository.
-
-See [PUBLISHING.md](PUBLISHING.md) for the publishing metadata checklist.
+Maven Central publishing is configured through the opt-in `central-publishing` profile and the tag-based release workflow. It requires Central Portal credentials, a signing key, and namespace validation before the first release. See [PUBLISHING.md](PUBLISHING.md) for setup and release commands.
