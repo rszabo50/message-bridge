@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## 0.2.0 - Unreleased
 
+### Changed
+
+- Updated JUnit 5 and Maven build and publishing plugins while retaining Java 11 compatibility.
+- CI now builds and tests with both JDK 11 and JDK 21.
+
 ### Added
 
 - Slack Block Kit builder for common rich incoming webhook messages.

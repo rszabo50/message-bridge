@@ -2,6 +2,8 @@
 
 Public repository publishing is configured as an opt-in Maven profile for Maven Central. The library can also be installed locally and can build release-style artifacts.
 
+Use JDK 11 or JDK 21 to build. Maven compiles the library with `--release 11`, so the published JAR remains usable on Java 11. CI tests both JDKs.
+
 ## Current Commands
 
 Install the snapshot into the local Maven repository:
